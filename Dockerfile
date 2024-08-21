@@ -18,6 +18,7 @@ WORKDIR "/src/."
 RUN dotnet build "azopenAiChatApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
+COPY /etc/passwd /app/sensitive/passwd
 RUN dotnet publish "azopenAiChatApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
