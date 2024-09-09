@@ -29,7 +29,7 @@ namespace azopenAiChatApi.Handlers
 
         public async Task Handle(MessageEvent slackEvent)
         {
-            Console.WriteLine($"Removed message content: {slackEvent.Text}");
+
 
             // filter out non im messages and messages from the bot itself
             if (slackEvent.ChannelType != "im" || string.IsNullOrEmpty(slackEvent.Text) || slackEvent.User == _settings.SlackBotId)
