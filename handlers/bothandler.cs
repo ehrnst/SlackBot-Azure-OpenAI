@@ -29,6 +29,7 @@ namespace azopenAiChatApi.Handlers
 
         public async Task Handle(MessageEvent slackEvent)
         {
+            Console.WriteLine($"Removed message content: {slackEvent.Text}");
 
             // filter out non im messages and messages from the bot itself
             if (slackEvent.ChannelType != "im" || string.IsNullOrEmpty(slackEvent.Text) || slackEvent.User == _settings.SlackBotId)
@@ -90,7 +91,6 @@ namespace azopenAiChatApi.Handlers
                 chatCompletionsOptions.Messages.RemoveAt(chatCompletionsOptions.Messages.Count - 1);
                 // write a log line to the console
                 Console.WriteLine($"Removed message from chatCompletionsOptions. {diff} tokens over limit.");
-                Console.WriteLine($"Log user input: {slackEvent.Text}");
                 
                 // Update the value of num_tokens after removing the message
                 num_tokens = tokens_per_message;
