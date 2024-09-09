@@ -28,7 +28,7 @@ public class azopenAiChatApiController : ControllerBase
         {
             try {
                 cancellationToken.ThrowIfCancellationRequested();
-                _logger.LogInformation(HttpContext.Request.ToString());
+                _logger.LogInformation(slackEvent.Text);
                 return await _requestHandler.HandleEventRequest(HttpContext.Request, _endpointConfig);
             }
             catch (OperationCanceledException)
