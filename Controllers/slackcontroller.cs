@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SlackNet;
 using SlackNet.AspNetCore;
+using Microsoft.Extensions.Logging;
 
 namespace azopenAiChatApi.Controllers;
 
@@ -11,12 +12,14 @@ public class azopenAiChatApiController : ControllerBase
         private readonly ISlackRequestHandler _requestHandler;
         private readonly SlackEndpointConfiguration _endpointConfig;
         private readonly ISlackApiClient _slack;
-        //private readonly ILogger<azopenAiChatApiController> _logger;
-        public azopenAiChatApiController(ISlackRequestHandler requestHandler, SlackEndpointConfiguration endpointConfig, ISlackApiClient slack)
+        private readonly ILogger<azopenAiChatApiController> _logger;
+
+        public azopenAiChatApiController(ISlackRequestHandler requestHandler, SlackEndpointConfiguration endpointConfig, ISlackApiClient slack, ILogger<azopenAiChatApiController> logger)
         {
             _requestHandler = requestHandler;
             _endpointConfig = endpointConfig;
             _slack = slack;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -25,6 +28,7 @@ public class azopenAiChatApiController : ControllerBase
         {
             try {
                 cancellationToken.ThrowIfCancellationRequested();
+                _logger.LogInformation(HttpContext.Request.ToString());
                 return await _requestHandler.HandleEventRequest(HttpContext.Request, _endpointConfig);
             }
             catch (OperationCanceledException)
