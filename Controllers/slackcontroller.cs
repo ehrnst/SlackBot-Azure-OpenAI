@@ -36,4 +36,24 @@ public class azopenAiChatApiController : ControllerBase
                 return StatusCode(500, "Request timed out");
             }
         }
+
+        [HttpPost]
+        [Route("/hello/{name}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Hello(CancellationToken cancellationToken, string name, ILogger<azopenAiChatApiController> logger)
+        {
+            try {
+                cancellationToken.ThrowIfCancellationRequested();
+                logger.LogInformation("hello " + name);     
+                return Ok("hello " + name);
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(500, "Request timed out");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 }
